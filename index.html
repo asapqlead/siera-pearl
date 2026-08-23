@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Siera Pearl — Fine Pearl Jewelry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="announce">Complimentary shipping &amp; returns on every order &nbsp;·&nbsp; <span>Certified natural pearls, guaranteed for life</span></div>
+
+<header class="site">
+  <div class="header-row">
+    <button class="icon-btn hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <a href="#top" class="logo-link" aria-label="Siera Pearl home"><img id="headerLogo" src="" alt="Siera Pearl"></a>
+    <nav class="main-nav" aria-label="Main">
+      <button class="navlink" data-cat="all">All Jewelry</button>
+      <button class="navlink" data-cat="Necklaces">Necklaces</button>
+      <button class="navlink" data-cat="Earrings">Earrings</button>
+      <button class="navlink" data-cat="Bracelets">Bracelets</button>
+      <button class="navlink" data-cat="Rings">Rings</button>
+      <button class="navlink" data-cat="Bridal">Bridal</button>
+      <button class="navlink" id="storyLink">Our Story</button>
+    </nav>
+    <div class="header-actions">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.8"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <input type="text" id="searchInput" placeholder="Search jewelry…" aria-label="Search">
+      </div>
+      <button class="icon-btn" id="acctBtn" aria-label="Account">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.6" stroke="currentColor" stroke-width="1.8"/><path d="M4.5 20c1.6-3.6 4.6-5.5 7.5-5.5s5.9 1.9 7.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" id="wishHeaderBtn" aria-label="Wishlist">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 20s-7.5-4.6-9.6-9.3C1 7.4 3 4.5 6.2 4.5c2 0 3.5 1.1 5.8 3.4 2.3-2.3 3.8-3.4 5.8-3.4 3.2 0 5.2 2.9 3.8 6.2C19.5 15.4 12 20 12 20z" stroke="currentColor" stroke-width="1.6"/></svg>
+      </button>
+      <button class="icon-btn" id="cartBtn" aria-label="Shopping bag">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6 8h12l-1 12H7L6 8z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke="currentColor" stroke-width="1.7"/></svg>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div id="mobileNav" class="mobile-nav">
+  <button class="navlink" data-cat="all" style="margin-bottom:16px;font-weight:800;">Close ✕</button>
+  <button class="mnav-link" data-cat="all">All Jewelry</button>
+  <button class="mnav-link" data-cat="Necklaces">Necklaces</button>
+  <button class="mnav-link" data-cat="Earrings">Earrings</button>
+  <button class="mnav-link" data-cat="Bracelets">Bracelets</button>
+  <button class="mnav-link" data-cat="Rings">Rings</button>
+  <button class="mnav-link" data-cat="Bridal">Bridal</button>
+</div>
+
+<div id="overlayBg" class="overlay-bg"></div>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow" style="color:var(--gold-light);">The Siera Pearl Collection</p>
+        <h1 style="margin-top:14px;">Luminous pearls, <em>set to endure.</em></h1>
+        <p class="lede">Each Siera Pearl piece is hand-selected for lustre and shape, then set in recycled gold by master jewelers — an heirloom from the very first wear.</p>
+        <div class="hero-ctas">
+          <button class="btn btn-gold" id="heroShopBtn">Shop New Arrivals</button>
+          <button class="btn btn-outline-light" id="heroStoryBtn">Our Story</button>
+        </div>
+      </div>
+      <div class="hero-orb-wrap">
+        <svg viewBox="0 0 400 400" fill="none">
+          <defs>
+            <radialGradient id="heroPearl" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#FFFFFF"/>
+              <stop offset="55%" stop-color="#EDE7D6"/>
+              <stop offset="100%" stop-color="#C9BFA0"/>
+            </radialGradient>
+            <linearGradient id="heroGold" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#EBCB88"/>
+              <stop offset="100%" stop-color="#8C6A2F"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="200" cy="330" rx="130" ry="16" fill="#000" opacity="0.18"/>
+          <path d="M70 210 C70 120 130 60 200 60 C270 60 330 120 330 210" stroke="url(#heroGold)" stroke-width="7" fill="none" stroke-linecap="round"/>
+          <circle cx="200" cy="235" r="72" fill="url(#heroPearl)"/>
+          <circle cx="172" cy="205" r="18" fill="#fff" opacity="0.65"/>
+          <circle cx="200" cy="167" r="9" fill="url(#heroGold)"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust-strip">
+    <div class="wrap trust-grid">
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.6-3 8.4-7 9-4-.6-7-4.4-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <b>Secure Checkout</b><span>256-bit SSL encrypted</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2-6 4 12 2-6h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <b>Certified Pearls</b><span>Graded &amp; guaranteed genuine</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5.5A2.5 2.5 0 0 1 10.5 3h3A2.5 2.5 0 0 1 16 5.5V7" stroke="currentColor" stroke-width="1.6"/></svg>
+        <b>Free Shipping</b><span>On every order, worldwide</span>
+      </div>
+      <div class="trust-item">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 3-6.2" stroke="currentColor" stroke-width="1.6"/><path d="M3 4v4h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <b>30-Day Returns</b><span>Free, no questions asked</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY SHOWCASE -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Shop by category</p>
+        <h2>Find your pearl</h2>
+        <p>From everyday studs to bridal statement pieces — every setting begins with the pearl.</p>
+      </div>
+      <div class="cat-grid">
+        <div class="cat-card" data-cat="Necklaces">
+          <svg class="cat-icon" viewBox="0 0 100 100"><path d="M15 30 C15 60 35 78 50 78 C65 78 85 60 85 30" stroke="#B78A45" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="50" cy="78" r="11" fill="#EDE7D6" stroke="#C9BFA0"/></svg>
+          <h3>Necklaces</h3><span>Strands &amp; pendants</span>
+        </div>
+        <div class="cat-card" data-cat="Earrings">
+          <svg class="cat-icon" viewBox="0 0 100 100">
+            <path d="M35 20 q-4 8 0 14" stroke="#B78A45" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="35" cy="42" r="9" fill="#EDE7D6" stroke="#C9BFA0"/>
+            <path d="M65 20 q4 8 0 14" stroke="#B78A45" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="65" cy="42" r="9" fill="#EDE7D6" stroke="#C9BFA0"/>
+          </svg>
+          <h3>Earrings</h3><span>Studs, drops &amp; hoops</span>
+        </div>
+        <div class="cat-card" data-cat="Bracelets">
+          <svg class="cat-icon" viewBox="0 0 100 100"><ellipse cx="50" cy="50" rx="34" ry="20" stroke="#B78A45" stroke-width="3" fill="none"/><circle cx="16" cy="50" r="6" fill="#EDE7D6" stroke="#C9BFA0"/><circle cx="84" cy="50" r="6" fill="#EDE7D6" stroke="#C9BFA0"/><circle cx="50" cy="30" r="6" fill="#EDE7D6" stroke="#C9BFA0"/><circle cx="50" cy="70" r="6" fill="#EDE7D6" stroke="#C9BFA0"/></svg>
+          <h3>Bracelets</h3><span>Tennis, bangle &amp; wrap</span>
+        </div>
+        <div class="cat-card" data-cat="Rings">
+          <svg class="cat-icon" viewBox="0 0 100 100"><ellipse cx="50" cy="62" rx="26" ry="20" stroke="#B78A45" stroke-width="3.5" fill="none"/><circle cx="50" cy="34" r="14" fill="#EDE7D6" stroke="#C9BFA0"/></svg>
+          <h3>Rings</h3><span>Solitaire &amp; stack</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOP -->
+  <section class="shop-section" id="shop">
+    <div class="wrap">
+      <div class="shop-head">
+        <div>
+          <p class="eyebrow">The full collection</p>
+          <h2>Shop all pearl jewelry</h2>
+        </div>
+      </div>
+      <div class="shop-layout">
+        <aside class="filters" id="filtersPanel">
+          <div class="filter-block">
+            <h4>Category</h4>
+            <div class="opts" id="fCategory"></div>
+          </div>
+          <div class="filter-block">
+            <h4>Pearl Type</h4>
+            <div class="opts" id="fPearl"></div>
+          </div>
+          <div class="filter-block">
+            <h4>Metal</h4>
+            <div class="opts" id="fMetal"></div>
+          </div>
+          <div class="filter-block">
+            <h4>Price</h4>
+            <div class="price-range">
+              <input type="range" id="fPrice" min="0" max="5000" step="50" value="5000">
+              <div class="price-vals"><span>$0</span><span id="fPriceVal">$5,000+</span></div>
+            </div>
+          </div>
+          <div class="filter-block">
+            <h4>Availability</h4>
+            <div class="opts">
+              <label><input type="checkbox" id="fInStock"><span>In stock only</span></label>
+            </div>
+          </div>
+          <button class="clear-filters" id="clearFilters">Clear all filters</button>
+        </aside>
+
+        <div>
+          <div class="active-chips" id="activeChips"></div>
+          <div class="shop-toolbar">
+            <div class="result-count" id="resultCount">30 pieces</div>
+            <select class="sort-select" id="sortSelect">
+              <option value="featured">Sort: Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="newest">Newest</option>
+              <option value="name">Name: A–Z</option>
+            </select>
+          </div>
+          <div class="product-grid" id="productGrid"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story-section" id="story">
+    <div class="wrap story-grid">
+      <div class="story-art">
+        <svg viewBox="0 0 300 260" fill="none">
+          <path d="M20 130 C20 60 80 20 150 20 C220 20 280 60 280 130 C280 130 250 110 150 110 C50 110 20 130 20 130Z" fill="none" stroke="#D9B677" stroke-width="2.5" opacity="0.9"/>
+          <path d="M60 120 C60 75 100 45 150 45" stroke="#D9B677" stroke-width="1.5" opacity="0.5"/>
+          <path d="M90 118 C90 88 118 62 150 58" stroke="#D9B677" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="150" cy="150" r="34" fill="#EDE7D6"/>
+          <circle cx="138" cy="138" r="9" fill="#fff" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="story-copy">
+        <p class="eyebrow">Behind the Pearl</p>
+        <h2>Ocean to atelier, in six careful steps.</h2>
+        <p>We work directly with third-generation pearl farms across the Ambon Sea and Kessennuma Bay, selecting only the top 3% of each harvest for lustre, surface, and shape. Every pearl is then hand-matched and set in our Bali atelier by goldsmiths who have shaped Siera pieces for over a decade.</p>
+        <div class="story-stats">
+          <div><b>3%</b><span>of harvest selected</span></div>
+          <div><b>12</b><span>days, hand-matched</span></div>
+          <div><b>∞</b><span>lifetime guarantee</span></div>
+        </div>
+        <button class="btn btn-line" style="margin-top:28px;" id="storyShopBtn">Explore the collection</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testi-section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">From our clients</p>
+        <h2>Loved, worn, passed down</h2>
+      </div>
+      <div class="testi-grid" id="testiGrid"></div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter">
+    <div class="wrap">
+      <h2>Join the Siera circle</h2>
+      <p>New arrivals, styling notes, and early access — straight to your inbox.</p>
+      <form class="newsletter-form" id="newsletterForm">
+        <input type="email" placeholder="Your email address" required aria-label="Email address">
+        <button class="btn btn-gold" type="submit">Sign Up</button>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-grid">
+    <div>
+      <div class="logo-line"><img id="footerLogo" src="" alt="Siera Pearl"></div>
+      <p class="foot-desc">Fine pearl jewelry, responsibly sourced and hand-set in recycled gold. Designed to be worn for a lifetime, and beyond.</p>
+      <div class="foot-social">
+        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg></a>
+        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M9 17c1-3 1.2-5 1.2-6.5a2.3 2.3 0 1 1 4.5.7c-.3 1.6-1 3-2.6 3-1.2 0-1.9-.9-1.6-2.1" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></a>
+        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none"><path d="M14 9h2V6h-2c-1.7 0-3 1.3-3 3v2H9v3h2v6h3v-6h2.2l.8-3H14V9z" fill="currentColor"/></svg></a>
+      </div>
+    </div>
+    <div>
+      <h5>Shop</h5>
+      <ul>
+        <li><a href="#" data-cat="Necklaces">Necklaces</a></li>
+        <li><a href="#" data-cat="Earrings">Earrings</a></li>
+        <li><a href="#" data-cat="Bracelets">Bracelets</a></li>
+        <li><a href="#" data-cat="Rings">Rings</a></li>
+        <li><a href="#" data-cat="Bridal">Bridal</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Support</h5>
+      <ul>
+        <li><a href="#" onclick="return false;">Track Your Order</a></li>
+        <li><a href="#" onclick="return false;">Shipping &amp; Returns</a></li>
+        <li><a href="#" onclick="return false;">Ring Sizing Guide</a></li>
+        <li><a href="#" onclick="return false;">Pearl Care</a></li>
+        <li><a href="#" onclick="return false;">Contact Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#story">Our Story</a></li>
+        <li><a href="#" onclick="return false;">Sourcing &amp; Sustainability</a></li>
+        <li><a href="#" onclick="return false;">Journal</a></li>
+        <li><a href="#" onclick="return false;">Careers</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#" onclick="return false;">Book a Consultation</a></li>
+        <li><a href="#" onclick="return false;">Repairs &amp; Restringing</a></li>
+        <li><a href="#" onclick="return false;">Gift Cards</a></li>
+        <li><a href="#" onclick="return false;">Business Gifting</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 Siera Pearl. All rights reserved.</span>
+    <div class="pay-icons">
+      <span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>PAYPAL</span><span>APPLE PAY</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer" role="dialog" aria-label="Shopping cart">
+  <div class="drawer-head">
+    <h3>Your Bag (<span id="drawerCount">0</span>)</h3>
+    <button class="drawer-close" id="cartCloseBtn" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+  </div>
+  <div class="cart-items" id="cartItemsWrap"></div>
+  <div class="drawer-foot" id="drawerFoot">
+    <div class="ship-note"><svg viewBox="0 0 24 24" fill="none"><path d="M4 12a8 8 0 1 0 3-6.2" stroke="currentColor" stroke-width="1.8"/><path d="M3 4v4h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg> Complimentary shipping included</div>
+    <div class="foot-row"><span>Subtotal</span><span id="cartSubtotal">$0</span></div>
+    <div class="foot-row total"><span>Estimated Total</span><span id="cartTotal">$0</span></div>
+    <button class="btn btn-dark btn-block" id="checkoutBtn" style="margin-top:14px;">Secure Checkout</button>
+    <button class="btn btn-line btn-block" id="continueShoppingBtn" style="margin-top:10px;">Continue Shopping</button>
+  </div>
+</div>
+
+<!-- QUICK VIEW MODAL -->
+<div class="modal" id="qvModal">
+  <div class="modal-card qv-card" style="position:relative;">
+    <button class="modal-close" id="qvCloseBtn" aria-label="Close"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+    <div class="qv-grid" id="qvGrid"></div>
+  </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="coModal">
+  <div class="modal-card checkout-card" style="position:relative;">
+    <button class="modal-close" id="coCloseBtn" aria-label="Close checkout"><svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+
+    <div class="co-steps" id="coSteps">
+      <div class="co-step active" data-step="1"><span class="dot">1</span>Shipping</div>
+      <div class="co-sep"></div>
+      <div class="co-step" data-step="2"><span class="dot">2</span>Delivery</div>
+      <div class="co-sep"></div>
+      <div class="co-step" data-step="3"><span class="dot">3</span>Payment</div>
+      <div class="co-sep"></div>
+      <div class="co-step" data-step="4"><span class="dot">4</span>Confirm</div>
+    </div>
+
+    <div class="co-body" id="coBody">
+      <div class="co-main">
+
+        <!-- STEP 1: shipping address -->
+        <div class="co-panel active" data-panel="1">
+          <h3>Shipping Address</h3>
+          <div class="form-grid">
+            <div class="form-field full" id="f_fullName"><label>Full Name</label><input type="text" placeholder="Jordan Avery"><div class="field-err">Enter your full name.</div></div>
+            <div class="form-field full" id="f_email"><label>Email</label><input type="email" placeholder="you@example.com"><div class="field-err">Enter a valid email address.</div></div>
+            <div class="form-field full" id="f_address"><label>Street Address</label><input type="text" placeholder="123 Bayview Lane"><div class="field-err">Enter your street address.</div></div>
+            <div class="form-field" id="f_city"><label>City</label><input type="text" placeholder="Phnom Penh"><div class="field-err">Enter your city.</div></div>
+            <div class="form-field" id="f_state"><label>State / Province</label><input type="text" placeholder="—"><div class="field-err">Required.</div></div>
+            <div class="form-field" id="f_zip"><label>Postal Code</label><input type="text" placeholder="12000"><div class="field-err">Enter a valid postal code.</div></div>
+            <div class="form-field" id="f_country">
+              <label>Country</label>
+              <select><option>Cambodia</option><option>United States</option><option>United Kingdom</option><option>Australia</option><option>Singapore</option><option>Japan</option><option>France</option><option>Canada</option></select>
+            </div>
+            <div class="form-field" id="f_phone"><label>Phone</label><input type="tel" placeholder="+855 12 345 678"><div class="field-err">Enter a valid phone number.</div></div>
+          </div>
+          <div class="co-nav">
+            <span></span>
+            <button class="btn btn-dark" id="toStep2">Continue to Delivery</button>
+          </div>
+        </div>
+
+        <!-- STEP 2: delivery method -->
+        <div class="co-panel" data-panel="2">
+          <h3>Delivery Method</h3>
+          <div class="ship-methods" id="shipMethods">
+            <label class="ship-method active" data-price="0" data-days="5–7 business days">
+              <div class="left"><input type="radio" name="ship" checked><div><div>Standard Shipping</div><div class="sub">5–7 business days</div></div></div>
+              <b>Free</b>
+            </label>
+            <label class="ship-method" data-price="28" data-days="2–3 business days">
+              <div class="left"><input type="radio" name="ship"><div><div>Express Shipping</div><div class="sub">2–3 business days</div></div></div>
+              <b>$28</b>
+            </label>
+            <label class="ship-method" data-price="65" data-days="next business day">
+              <div class="left"><input type="radio" name="ship"><div><div>Overnight, Insured</div><div class="sub">Next business day, signature required</div></div></div>
+              <b>$65</b>
+            </label>
+          </div>
+          <div class="co-nav">
+            <button class="btn btn-line" id="toStep1">Back</button>
+            <button class="btn btn-dark" id="toStep3">Continue to Payment</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: payment -->
+        <div class="co-panel" data-panel="3">
+          <h3>Payment</h3>
+          <div class="secure-note"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.6-3 8.4-7 9-4-.6-7-4.4-7-9V6l7-3z" stroke="currentColor" stroke-width="1.7"/></svg> Encrypted &amp; PCI-compliant. Your card details are never stored.</div>
+          <div class="card-visual">
+            <div style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#CFE0D8;">Siera Pearl Card</div>
+            <div class="cnum" id="cardVisualNum">•••• •••• •••• ••••</div>
+            <div class="crow"><div><span style="color:#8FB09E;">Card Holder</span><div class="cname" id="cardVisualName">Full Name</div></div><div><span style="color:#8FB09E;">Expires</span><div class="cname" id="cardVisualExp">MM/YY</div></div></div>
+          </div>
+          <div class="form-grid">
+            <div class="form-field full" id="f_cardName"><label>Name on Card</label><input type="text" placeholder="Jordan Avery"><div class="field-err">Enter the name on your card.</div></div>
+            <div class="form-field full" id="f_cardNum"><label>Card Number</label><input type="text" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456"><div class="field-err">Enter a valid 16-digit card number.</div></div>
+            <div class="form-field" id="f_cardExp"><label>Expiry Date</label><input type="text" inputmode="numeric" maxlength="5" placeholder="MM/YY"><div class="field-err">Enter a valid future date.</div></div>
+            <div class="form-field" id="f_cardCvc"><label>CVC</label><input type="text" inputmode="numeric" maxlength="4" placeholder="123"><div class="field-err">Enter a valid CVC.</div></div>
+            <div class="form-field full" id="f_billing"><label><input type="checkbox" checked style="width:13px;height:13px;vertical-align:-2px;margin-right:6px;">Billing address same as shipping</label></div>
+          </div>
+          <div class="pay-badges"><span>VISA</span><span>MASTERCARD</span><span>AMEX</span><span>256-BIT SSL</span></div>
+          <div class="co-nav">
+            <button class="btn btn-line" id="toStep2b">Back</button>
+            <button class="btn btn-gold" id="placeOrderBtn">Place Secure Order</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: processing / confirm -->
+        <div class="co-panel" data-panel="4">
+          <div id="coProcessing" class="loading-pay">
+            <div class="spinner"></div>
+            <div>
+              <div style="font-weight:700;font-size:14px;">Processing your secure payment…</div>
+              <div style="font-size:12px;color:var(--ink-soft);margin-top:4px;text-align:center;">Please don't close this window.</div>
+            </div>
+          </div>
+          <div id="coConfirm" class="co-confirm" style="display:none;">
+            <svg class="confirm-icon" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="46" stroke="currentColor" stroke-width="2.5"/><path d="M32 51l12 12 24-26" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <h2>Thank you, your order is confirmed.</h2>
+            <p>A confirmation has been sent to <b id="confirmEmail">your email</b>. We'll notify you the moment it ships.</p>
+            <div class="order-box">
+              <div class="row"><span>Order Number</span><b id="confirmOrderNum">—</b></div>
+              <div class="row"><span>Estimated Delivery</span><b id="confirmDelivery">—</b></div>
+              <div class="row"><span>Order Total</span><b id="confirmTotal">—</b></div>
+            </div>
+            <button class="btn btn-dark" style="margin-top:30px;" id="backToShopBtn">Continue Shopping</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="co-side">
+        <h4>Order Summary</h4>
+        <div id="coItems"></div>
+        <div class="co-totals">
+          <div class="foot-row"><span>Subtotal</span><span id="coSubtotal">$0</span></div>
+          <div class="foot-row"><span>Shipping</span><span id="coShipping">Free</span></div>
+          <div class="foot-row"><span>Estimated Tax</span><span id="coTax">$0</span></div>
+          <div class="foot-row total"><span>Total</span><span id="coGrandTotal">$0</span></div>
+        </div>
+        <div class="promo-row">
+          <input type="text" placeholder="Promo code" id="promoInput">
+          <button class="btn btn-line" id="promoBtn">Apply</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">
+  <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 12.2l2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <span id="toastMsg">Added to your bag</span>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="admin/config.js"></script>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>
