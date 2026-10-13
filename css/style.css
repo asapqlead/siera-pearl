@@ -104,6 +104,7 @@ header.site {
   -webkit-backdrop-filter: blur(100px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .header-row {
@@ -114,12 +115,13 @@ header.site {
   max-width: 1280px;
   margin: 0 auto;
   gap: 20px;
-  transition: padding 0.3s ease;
+  transition: padding 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: padding;
 }
 
 .logo-link {
   display: block;
-  transition: all 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 header.site.shrink .header-row {
@@ -128,13 +130,14 @@ header.site.shrink .header-row {
 }
 
 header.site.shrink .logo-link img {
-  height: 28px;
+  height: 32px;
 }
 
 .logo-link img {
   height: 46px;
   width: auto;
-  transition: height 0.3s ease;
+  transition: height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: height;
 }
 
 nav.main-nav {

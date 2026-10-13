@@ -67,42 +67,88 @@ var METALS = ["Yellow Gold","Rose Gold","White Gold"];
 var PEARLS = ["Akoya","South Sea","Tahitian","Freshwater","Keshi"];
 
 var PRODUCTS = [];
-var cfg = window.SUPABASE_CONFIG || {};
-var sb = (cfg.url && cfg.anonKey) ? window.supabase.createClient(cfg.url, cfg.anonKey) : null;
+var supabaseUrl = import.meta.env.VITE_SUPABASE_URL || (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.url) || "";
+var supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || (window.SUPABASE_CONFIG && window.SUPABASE_CONFIG.anonKey) || "";
+var sb = (supabaseUrl && supabaseAnonKey && window.supabase)
+  ? window.supabase.createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
-function initProducts(cb) {
+function mapDbProduct(db_p) {
+  var inStock = Boolean(db_p.in_stock && (db_p.stock_qty === undefined || db_p.stock_qty === null || db_p.stock_qty > 0));
+  return {
+    id: db_p.id,
+    cat: db_p.cat,
+    name: db_p.name,
+    metal: db_p.metal,
+    pearl: db_p.pearl,
+    price: Number(db_p.price),
+    was: db_p.was ? Number(db_p.was) : null,
+    desc: db_p.description || "",
+    badge: db_p.badge || null,
+    rating: db_p.rating || 5,
+    stock: inStock,
+    stock_qty: db_p.stock_qty !== undefined ? db_p.stock_qty : (inStock ? 1 : 0),
+    date: db_p.id,
+    photos: Array.isArray(db_p.photos) ? db_p.photos : [],
+    icon: makeIcon(db_p.cat, db_p.metal, db_p.pearl)
+  };
+}
+
+function fetchProductsFromSupabase(cb) {
   if (!sb) {
-    console.warn("Supabase not configured. Storefront will be empty.");
-    cb();
+    console.warn("Supabase not configured in .env (VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY).");
+    if (cb) cb();
     return;
   }
   
   sb.from("products").select("*").order("sort_order", { ascending: true })
     .then(function(res) {
       if (res.error) {
-        console.error("Failed to load products", res.error);
+        console.error("Failed to load products from Supabase:", res.error);
       } else {
-        PRODUCTS = (res.data || []).map(function(db_p) {
-          return {
-            id: db_p.id,
-            cat: db_p.cat,
-            name: db_p.name,
-            metal: db_p.metal,
-            pearl: db_p.pearl,
-            price: db_p.price,
-            was: db_p.was,
-            desc: db_p.description || "",
-            badge: db_p.badge,
-            rating: db_p.rating || 5,
-            stock: !!(db_p.in_stock && db_p.stock_qty > 0),
-            date: db_p.id, /* using id as a rough 'newest' proxy */
-            photos: db_p.photos || [],
-            icon: makeIcon(db_p.cat, db_p.metal, db_p.pearl)
-          };
-        });
+        PRODUCTS = (res.data || []).map(mapDbProduct);
       }
-      cb();
+      if (cb) cb();
     });
+}
+
+function initProducts(cb) {
+  fetchProductsFromSupabase(function() {
+    if (cb) cb();
+    setupSyncListeners();
+  });
+}
+
+function setupSyncListeners() {
+  if (!sb) return;
+
+  function refreshStorefront() {
+    fetchProductsFromSupabase(function() {
+      updateFilterCounts();
+      renderShop();
+      renderCart();
+    });
+  }
+
+  // Auto re-sync whenever user focuses or switches back to the storefront tab
+  document.addEventListener("visibilitychange", function() {
+    if (document.visibilityState === "visible") {
+      refreshStorefront();
+    }
+  });
+
+  // Supabase Realtime subscription for instant updates across tabs
+  try {
+    if (typeof sb.channel === "function") {
+      sb.channel("storefront-products-sync")
+        .on("postgres_changes", { event: "*", schema: "public", table: "products" }, function() {
+          refreshStorefront();
+        })
+        .subscribe();
+    }
+  } catch (err) {
+    console.warn("Realtime sync unavailable:", err);
+  }
 }
 
 /* ================= STATE ================= */
@@ -126,6 +172,20 @@ function starsHTML(n){
 /* ================= FILTER PANEL BUILD ================= */
 function countFor(field, val){
   return PRODUCTS.filter(function(p){ return p[field]===val; }).length;
+}
+function updateFilterCounts(){
+  ["Necklaces","Earrings","Bracelets","Rings","Bridal"].forEach(function(c){
+    var el = document.querySelector('#fCategory input[value="'+c+'"] ~ .count');
+    if (el) el.textContent = countFor('cat', c);
+  });
+  PEARLS.forEach(function(c){
+    var el = document.querySelector('#fPearl input[value="'+c+'"] ~ .count');
+    if (el) el.textContent = countFor('pearl', c);
+  });
+  METALS.forEach(function(c){
+    var el = document.querySelector('#fMetal input[value="'+c+'"] ~ .count');
+    if (el) el.textContent = countFor('metal', c);
+  });
 }
 function buildFilterOpts(){
   var catWrap = document.getElementById('fCategory');
@@ -256,6 +316,7 @@ function renderShop(){
   var grid = document.getElementById('productGrid');
   if(!list.length){
     grid.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><h3 class="serif" style="font-size:19px;">No pieces match those filters</h3><p style="margin-top:8px;font-size:13.5px;">Try widening your price range or clearing a filter.</p></div>';
+    updateHeaderOnScroll();
     return;
   }
   grid.innerHTML = list.map(function(p){
@@ -310,6 +371,7 @@ function renderShop(){
       addToCart(id,1);
     });
   });
+  updateHeaderOnScroll();
 }
 
 /* ================= QUICK VIEW ================= */
@@ -693,30 +755,58 @@ document.addEventListener('keydown', function(e){
   if(e.key==='Escape'){ closeCart(); closeQuickView(); closeCheckout(); closeMobileNav(); }
 });
 
-var lastScrollTop = 0;
-var scrollDelta = 15;
-window.addEventListener('scroll', function() {
-  var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+/* ================= HEADER SCROLL BEHAVIOR ================= */
+var scrollTicking = false;
+
+function updateHeaderOnScroll() {
   var header = document.querySelector('header.site');
-  
-  // Always unshrink at the very top
-  if (currentScroll <= 80) {
-    header.classList.remove('shrink');
-    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
+  if (!header) return;
+
+  var currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+  var scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+  // 1. If the page doesn't have enough scrollable room (less than 120px),
+  // never shrink to prevent scroll clamping, layout shifts, and visual twitching.
+  if (scrollableHeight < 120) {
+    if (header.classList.contains('shrink')) {
+      header.classList.remove('shrink');
+    }
     return;
   }
-  
-  // Ignore small scrolls to prevent twitching
-  if (Math.abs(lastScrollTop - currentScroll) <= scrollDelta) return;
-  
-  if (currentScroll > lastScrollTop) {
-    // Scrolling down
-    header.classList.add('shrink');
-  } else {
-    // Scrolling up
-    header.classList.remove('shrink');
+
+  // 2. Threshold with hysteresis to prevent any boundary oscillation:
+  // - Shrink once scrolled past the announcement bar & initial header (>= 80px)
+  // - Only unshrink when scrolled cleanly back to the top (<= 25px)
+  // The 55px gap ensures header height transition (26px) can never trigger an unshrink loop.
+  if (currentScroll >= 80) {
+    if (!header.classList.contains('shrink')) {
+      header.classList.add('shrink');
+    }
+  } else if (currentScroll <= 25) {
+    if (header.classList.contains('shrink')) {
+      header.classList.remove('shrink');
+    }
   }
-  lastScrollTop = currentScroll;
+}
+
+window.addEventListener('scroll', function() {
+  if (!scrollTicking) {
+    window.requestAnimationFrame(function() {
+      updateHeaderOnScroll();
+      scrollTicking = false;
+    });
+    scrollTicking = true;
+  }
+}, { passive: true });
+
+window.addEventListener('resize', function() {
+  if (!scrollTicking) {
+    window.requestAnimationFrame(function() {
+      updateHeaderOnScroll();
+      scrollTicking = false;
+    });
+    scrollTicking = true;
+  }
 }, { passive: true });
 
 })();
