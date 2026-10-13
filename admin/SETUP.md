@@ -18,12 +18,10 @@ edit, delete, and re-photo products without touching code.
 ## 3. Get your API keys
 1. Go to **Project Settings → API**.
 2. Copy the **Project URL** and the **anon / public** key (NOT the `service_role` key).
-3. Open `admin/config.js` and paste them in:
-   ```js
-   window.SUPABASE_CONFIG = {
-     url: "https://xxxxx.supabase.co",
-     anonKey: "eyJhbGciOi..."
-   };
+3. Copy `.env.example` to `.env` in the project root and paste them in:
+   ```env
+   VITE_SUPABASE_URL=https://xxxxx.supabase.co
+   VITE_SUPABASE_ANON_KEY=eyJhbGciOi...
    ```
 
 ## 4. Create a login for the stock controller

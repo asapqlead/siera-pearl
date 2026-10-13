@@ -1,15 +1,18 @@
 /* ============================================================
    Siera Pearl — Product Manager (Supabase-backed)
    Premium Admin Dashboard
-   Requires config.js to be filled in with a real project URL + anon key.
+   Requires .env to be filled in with VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY.
    ============================================================ */
 (function () {
   "use strict";
 
   /* ---------- Config check ---------- */
-  var cfg = window.SUPABASE_CONFIG || {};
-  var configured = cfg.url && cfg.url.indexOf("YOUR_SUPABASE") === -1 &&
-                    cfg.anonKey && cfg.anonKey.indexOf("YOUR_SUPABASE") === -1;
+  var cfg = {
+    url: import.meta.env.VITE_SUPABASE_URL || "",
+    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY || ""
+  };
+  var configured = cfg.url && cfg.url.indexOf("your-project") === -1 &&
+                    cfg.anonKey && cfg.anonKey.indexOf("your-anon-key") === -1;
 
   var el = function (id) { return document.getElementById(id); };
 

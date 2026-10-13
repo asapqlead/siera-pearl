@@ -43,7 +43,7 @@
         <p id="loginError" class="form-error" hidden></p>
       </form>
       <p id="configWarning" class="config-warning" hidden>
-        Supabase isn't configured yet. Fill in <code>admin/config.js</code> with your project URL and anon key, then run
+        Supabase isn't configured yet. Copy <code>.env.example</code> to <code>.env</code> and fill in your project URL and anon key, then run
         <code>supabase/schema.sql</code> — see <code>admin/SETUP.md</code>.
       </p>
     </div>
@@ -452,8 +452,7 @@
   <div id="toastContainer" class="toast-container"></div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="config.js"></script>
-  <script src="admin.js"></script>
+  <script type="module" src="admin.js"></script>
 </body>
 
 </html>
