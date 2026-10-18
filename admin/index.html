@@ -15,6 +15,19 @@
 
 <body>
 
+  <!-- ===================== AUTH LOADING OVERLAY ===================== -->
+  <div id="authLoading" class="auth-loading-overlay" role="status" aria-label="Checking authorization">
+    <div class="auth-loader">
+      <div class="pearl-ring-loader" aria-hidden="true">
+        <div class="pearl-ring-outer"></div>
+        <div class="pearl-ring-inner"></div>
+        <div class="pearl-dot"></div>
+      </div>
+      <div class="auth-brand-name serif">Siera Pearl</div>
+      <div class="auth-loading-sub">Authenticating…</div>
+    </div>
+  </div>
+
   <!-- ===================== LOGIN SCREEN ===================== -->
   <div id="loginScreen" class="login-screen">
     <div class="login-card">
@@ -251,9 +264,61 @@
                 <th></th>
               </tr>
             </thead>
-            <tbody id="productTableBody">
-              <tr>
-                <td colspan="9" class="loading-row">Loading products…</td>
+            <tbody id="productTableBody" aria-busy="true">
+              <tr class="skeleton-row" aria-hidden="true">
+                <td><div class="skeleton skeleton-check"></div></td>
+                <td><div class="skeleton skeleton-photo"></div></td>
+                <td><div class="skeleton skeleton-text title"></div><div class="skeleton skeleton-text sub"></div></td>
+                <td><div class="skeleton skeleton-badge"></div></td>
+                <td><div class="skeleton skeleton-text title" style="width:70px;"></div><div class="skeleton skeleton-text sub" style="width:55px;"></div></td>
+                <td><div class="skeleton skeleton-price"></div></td>
+                <td><div class="skeleton skeleton-pill"></div></td>
+                <td><div class="skeleton skeleton-pill-sm"></div></td>
+                <td><div class="skeleton skeleton-action"></div></td>
+              </tr>
+              <tr class="skeleton-row" aria-hidden="true">
+                <td><div class="skeleton skeleton-check"></div></td>
+                <td><div class="skeleton skeleton-photo"></div></td>
+                <td><div class="skeleton skeleton-text title"></div><div class="skeleton skeleton-text sub"></div></td>
+                <td><div class="skeleton skeleton-badge"></div></td>
+                <td><div class="skeleton skeleton-text title" style="width:70px;"></div><div class="skeleton skeleton-text sub" style="width:55px;"></div></td>
+                <td><div class="skeleton skeleton-price"></div></td>
+                <td><div class="skeleton skeleton-pill"></div></td>
+                <td><div class="skeleton skeleton-pill-sm"></div></td>
+                <td><div class="skeleton skeleton-action"></div></td>
+              </tr>
+              <tr class="skeleton-row" aria-hidden="true">
+                <td><div class="skeleton skeleton-check"></div></td>
+                <td><div class="skeleton skeleton-photo"></div></td>
+                <td><div class="skeleton skeleton-text title"></div><div class="skeleton skeleton-text sub"></div></td>
+                <td><div class="skeleton skeleton-badge"></div></td>
+                <td><div class="skeleton skeleton-text title" style="width:70px;"></div><div class="skeleton skeleton-text sub" style="width:55px;"></div></td>
+                <td><div class="skeleton skeleton-price"></div></td>
+                <td><div class="skeleton skeleton-pill"></div></td>
+                <td><div class="skeleton skeleton-pill-sm"></div></td>
+                <td><div class="skeleton skeleton-action"></div></td>
+              </tr>
+              <tr class="skeleton-row" aria-hidden="true">
+                <td><div class="skeleton skeleton-check"></div></td>
+                <td><div class="skeleton skeleton-photo"></div></td>
+                <td><div class="skeleton skeleton-text title"></div><div class="skeleton skeleton-text sub"></div></td>
+                <td><div class="skeleton skeleton-badge"></div></td>
+                <td><div class="skeleton skeleton-text title" style="width:70px;"></div><div class="skeleton skeleton-text sub" style="width:55px;"></div></td>
+                <td><div class="skeleton skeleton-price"></div></td>
+                <td><div class="skeleton skeleton-pill"></div></td>
+                <td><div class="skeleton skeleton-pill-sm"></div></td>
+                <td><div class="skeleton skeleton-action"></div></td>
+              </tr>
+              <tr class="skeleton-row" aria-hidden="true">
+                <td><div class="skeleton skeleton-check"></div></td>
+                <td><div class="skeleton skeleton-photo"></div></td>
+                <td><div class="skeleton skeleton-text title"></div><div class="skeleton skeleton-text sub"></div></td>
+                <td><div class="skeleton skeleton-badge"></div></td>
+                <td><div class="skeleton skeleton-text title" style="width:70px;"></div><div class="skeleton skeleton-text sub" style="width:55px;"></div></td>
+                <td><div class="skeleton skeleton-price"></div></td>
+                <td><div class="skeleton skeleton-pill"></div></td>
+                <td><div class="skeleton skeleton-pill-sm"></div></td>
+                <td><div class="skeleton skeleton-action"></div></td>
               </tr>
             </tbody>
           </table>

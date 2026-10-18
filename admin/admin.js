@@ -23,6 +23,8 @@
   if (!configured) {
     configWarning.hidden = false;
     el("loginBtn").disabled = true;
+    var initialOverlay = el("authLoading");
+    if (initialOverlay) initialOverlay.hidden = true;
     return;
   }
 
@@ -38,7 +40,8 @@
     currentView: "dashboard",
     sortCol: null,
     sortDir: "asc",
-    selected: new Set()
+    selected: new Set(),
+    isLoading: false
   };
 
   /* ================================================================
@@ -71,8 +74,23 @@
     sb.auth.signOut().then(function () { location.reload(); });
   });
 
+  function hideAuthLoading() {
+    var overlay = el("authLoading");
+    if (!overlay) return;
+    overlay.classList.add("fade-out");
+    setTimeout(function () {
+      overlay.hidden = true;
+    }, 380);
+  }
+
   sb.auth.getSession().then(function (res) {
-    if (res.data.session) showApp(res.data.session);
+    if (res.data && res.data.session) {
+      showApp(res.data.session);
+    }
+  }).catch(function (err) {
+    console.warn("Session check error:", err);
+  }).finally(function () {
+    hideAuthLoading();
   });
 
   function showApp(session) {
@@ -123,6 +141,14 @@
     // Close mobile sidebar
     closeMobileSidebar();
 
+    // If data is currently loading, show appropriate view skeleton
+    if (state.isLoading) {
+      if (viewName === "dashboard") renderDashboardSkeleton();
+      if (viewName === "products") renderTableSkeleton(6);
+      if (viewName === "inventory") renderInventorySkeleton(6);
+      return;
+    }
+
     // Render view-specific content
     if (viewName === "dashboard") renderDashboard();
     if (viewName === "products") renderTable();
@@ -144,15 +170,116 @@
 
   /* Refresh button */
   el("refreshBtn").addEventListener("click", function () {
+    if (state.isLoading) return;
     loadProducts();
   });
+
+  /* ================================================================
+     SKELETON GENERATORS (Modern Graceful Loading)
+     ================================================================ */
+  function renderTableSkeleton(count) {
+    count = count || 6;
+    var rows = [];
+    for (var i = 0; i < count; i++) {
+      rows.push(
+        '<tr class="skeleton-row" aria-hidden="true">' +
+          '<td><div class="skeleton skeleton-check"></div></td>' +
+          '<td><div class="skeleton skeleton-photo"></div></td>' +
+          '<td><div class="skeleton skeleton-text title"></div><div class="skeleton skeleton-text sub"></div></td>' +
+          '<td><div class="skeleton skeleton-badge"></div></td>' +
+          '<td><div class="skeleton skeleton-text title" style="width:70px;"></div><div class="skeleton skeleton-text sub" style="width:55px;"></div></td>' +
+          '<td><div class="skeleton skeleton-price"></div></td>' +
+          '<td><div class="skeleton skeleton-pill"></div></td>' +
+          '<td><div class="skeleton skeleton-pill-sm"></div></td>' +
+          '<td><div class="skeleton skeleton-action"></div></td>' +
+        '</tr>'
+      );
+    }
+    var tbody = el("productTableBody");
+    tbody.innerHTML = rows.join("");
+    tbody.setAttribute("aria-busy", "true");
+    el("productCount").textContent = "Loading catalog…";
+    el("tableInfo").textContent = "Refreshing products from atelier…";
+  }
+
+  function renderDashboardSkeleton() {
+    var statSkeletons = [];
+    for (var i = 0; i < 6; i++) {
+      statSkeletons.push(
+        '<div class="stat-card is-skeleton" aria-hidden="true">' +
+          '<div class="skeleton skeleton-icon"></div>' +
+          '<div class="skeleton skeleton-stat-value"></div>' +
+          '<div class="skeleton skeleton-stat-label"></div>' +
+        '</div>'
+      );
+    }
+    el("statsGrid").innerHTML = statSkeletons.join("");
+
+    var catSkeletons = [];
+    for (var j = 0; j < 4; j++) {
+      catSkeletons.push(
+        '<div class="skeleton-cat-bar" aria-hidden="true">' +
+          '<div class="skeleton-cat-header">' +
+            '<div class="skeleton skeleton-cat-name"></div>' +
+            '<div class="skeleton skeleton-cat-count"></div>' +
+          '</div>' +
+          '<div class="skeleton skeleton-cat-track"></div>' +
+        '</div>'
+      );
+    }
+    el("catBreakdown").innerHTML = catSkeletons.join("");
+
+    var lowSkeletons = [];
+    for (var k = 0; k < 3; k++) {
+      lowSkeletons.push(
+        '<div class="skeleton-low-item" aria-hidden="true">' +
+          '<div class="skeleton skeleton-low-thumb"></div>' +
+          '<div class="skeleton-low-info">' +
+            '<div class="skeleton skeleton-low-name"></div>' +
+            '<div class="skeleton skeleton-low-cat"></div>' +
+          '</div>' +
+          '<div class="skeleton skeleton-low-pill"></div>' +
+        '</div>'
+      );
+    }
+    el("lowStockAlerts").innerHTML = lowSkeletons.join("");
+  }
+
+  function renderInventorySkeleton(count) {
+    count = count || 6;
+    var cards = [];
+    for (var i = 0; i < count; i++) {
+      cards.push(
+        '<div class="inv-card is-skeleton" aria-hidden="true">' +
+          '<div class="inv-card-top">' +
+            '<div class="skeleton skeleton-inv-photo"></div>' +
+            '<div class="inv-card-info">' +
+              '<div class="skeleton skeleton-inv-name"></div>' +
+              '<div class="skeleton skeleton-inv-meta"></div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="skeleton skeleton-inv-bar"></div>' +
+        '</div>'
+      );
+    }
+    el("inventoryGrid").innerHTML = cards.join("");
+  }
 
   /* ================================================================
      DATA LOADING
      ================================================================ */
   function loadProducts() {
-    var tbody = el("productTableBody");
-    tbody.innerHTML = '<tr><td colspan="9" class="loading-row">Loading products…</td></tr>';
+    state.isLoading = true;
+    var refreshBtn = el("refreshBtn");
+    if (refreshBtn) {
+      refreshBtn.classList.add("is-loading");
+      refreshBtn.setAttribute("aria-busy", "true");
+      refreshBtn.setAttribute("title", "Refreshing catalog…");
+    }
+
+    renderTableSkeleton(6);
+    if (state.currentView === "dashboard") renderDashboardSkeleton();
+    if (state.currentView === "inventory") renderInventorySkeleton(6);
 
     sb.from("products").select("*").order("sort_order", { ascending: true })
       .then(function (res) {
@@ -173,10 +300,23 @@
           badgeEl.hidden = true;
         }
 
-        // Re-render current view
+        // Re-render current view with data
         if (state.currentView === "dashboard") renderDashboard();
         if (state.currentView === "products") renderTable();
         if (state.currentView === "inventory") renderInventory();
+      })
+      .catch(function (err) {
+        showToast("Error loading catalog: " + (err.message || err), "error");
+      })
+      .finally(function () {
+        state.isLoading = false;
+        var tbody = el("productTableBody");
+        if (tbody) tbody.removeAttribute("aria-busy");
+        if (refreshBtn) {
+          refreshBtn.classList.remove("is-loading");
+          refreshBtn.removeAttribute("aria-busy");
+          refreshBtn.setAttribute("title", "Refresh data");
+        }
       });
   }
 
@@ -702,7 +842,13 @@
     var slug = el("f_slug").value.trim();
     if (!slug) { showFormError("Set a slug before uploading photos."); return; }
 
-    dropZone.innerHTML = '<div style="color:var(--gold);">Uploading ' + files.length + ' file' + (files.length > 1 ? 's' : '') + '…</div>';
+    dropZone.classList.add("is-uploading");
+    dropZone.innerHTML =
+      '<div class="upload-status">' +
+        '<div class="upload-spinner-ring" aria-hidden="true"></div>' +
+        '<div class="upload-status-title">Uploading ' + files.length + ' photo' + (files.length > 1 ? 's' : '') + ' to atelier…</div>' +
+        '<div class="upload-progress-track"><div class="upload-progress-bar"></div></div>' +
+      '</div>';
 
     var uploads = files.map(function (file) {
       var ext = (file.name.split(".").pop() || "jpg").toLowerCase();
@@ -722,6 +868,7 @@
     }).catch(function (err) {
       showFormError("Photo upload failed: " + err.message);
     }).finally(function () {
+      dropZone.classList.remove("is-uploading");
       dropZone.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>' +
         '<div>Drop images here or <strong>click to upload</strong></div>' +
         '<div style="font-size:11px;margin-top:2px;opacity:0.6;">PNG, JPG, WebP up to 5MB</div>';
@@ -770,7 +917,8 @@
     var id = el("f_id").value;
     var saveBtn = el("saveBtn");
     saveBtn.disabled = true;
-    saveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10" opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10" stroke-dasharray="31.4" stroke-dashoffset="0"><animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="0.8s" repeatCount="indefinite"/></path></svg> Saving…';
+    saveBtn.classList.add("btn-loading");
+    saveBtn.innerHTML = '<svg class="btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10" opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Saving product…';
 
     var query = id
       ? sb.from("products").update(payload).eq("id", Number(id))
@@ -778,6 +926,7 @@
 
     query.then(function (res) {
       saveBtn.disabled = false;
+      saveBtn.classList.remove("btn-loading");
       saveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save product';
       if (res.error) { showFormError(res.error.message); return; }
 
@@ -790,6 +939,11 @@
       closeModal();
       showToast(id ? "Product updated successfully." : "Product added successfully.", "success");
       loadProducts();
+    }).catch(function (err) {
+      saveBtn.disabled = false;
+      saveBtn.classList.remove("btn-loading");
+      saveBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Save product';
+      showFormError(err.message || "Failed to save product.");
     });
   });
 
@@ -798,11 +952,24 @@
     if (!id) return;
     if (!confirm("Delete this product? This can't be undone.")) return;
 
+    var delBtn = el("deleteBtn");
+    delBtn.disabled = true;
+    delBtn.classList.add("btn-loading");
+    delBtn.innerHTML = '<svg class="btn-spinner" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="12" cy="12" r="10" opacity="0.25"/><path d="M12 2a10 10 0 0 1 10 10"/></svg> Deleting…';
+
     sb.from("products").delete().eq("id", Number(id)).then(function (res) {
+      delBtn.disabled = false;
+      delBtn.classList.remove("btn-loading");
+      delBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Delete';
       if (res.error) { showFormError(res.error.message); return; }
       closeModal();
       showToast("Product deleted.", "success");
       loadProducts();
+    }).catch(function (err) {
+      delBtn.disabled = false;
+      delBtn.classList.remove("btn-loading");
+      delBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> Delete';
+      showFormError(err.message || "Failed to delete product.");
     });
   });
 })();

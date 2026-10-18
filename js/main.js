@@ -324,7 +324,7 @@ function renderShop(){
     var priceHTML = p.was ? '<span>'+money(p.price)+'</span><span class="was">'+money(p.was)+'</span>' : '<span>'+money(p.price)+'</span>';
     var wished = wishlist[p.id];
     var media = p.photos.length
-      ? '<img class="product-photo" src="'+p.photos[0]+'" alt="'+p.name+'" loading="lazy">'
+      ? '<img class="product-photo" src="'+p.photos[0]+'" alt="'+p.name+'" loading="lazy" onload="this.classList.add(\'loaded\')">'
       : '<div class="product-photo-fallback">'+p.icon+'</div>';
     return '<div class="product-card" data-id="'+p.id+'">'+
       '<div class="product-media" data-open="'+p.id+'" data-main="'+(p.photos[0]||'')+'" data-hover="'+(p.photos[1]||'')+'">'+
@@ -342,6 +342,11 @@ function renderShop(){
       '</div>'+
     '</div>';
   }).join('');
+
+  grid.removeAttribute('aria-busy');
+  grid.querySelectorAll('.product-photo').forEach(function(img){
+    if (img.complete) img.classList.add('loaded');
+  });
 
   grid.querySelectorAll('[data-open]').forEach(function(el){
     el.addEventListener('click', function(){ openQuickView(parseInt(el.getAttribute('data-open'),10)); });
@@ -420,7 +425,14 @@ function openQuickView(id){
   });
   grid.querySelectorAll('.qv-thumb').forEach(function(t){
     t.addEventListener('click', function(){
-      grid.querySelector('#qvMainImg').src = t.getAttribute('data-photo');
+      var mainImg = grid.querySelector('#qvMainImg');
+      var newSrc = t.getAttribute('data-photo');
+      if (mainImg && mainImg.src !== newSrc) {
+        mainImg.style.opacity = '0.35';
+        mainImg.src = newSrc;
+        mainImg.onload = function(){ mainImg.style.opacity = '1'; };
+        if (mainImg.complete) mainImg.style.opacity = '1';
+      }
       grid.querySelectorAll('.qv-thumb').forEach(function(x){ x.classList.remove('active'); });
       t.classList.add('active');
     });
