@@ -1,16 +1,33 @@
 # ==============================================================================
-# Dependencies
+# Dependencies & Package Managers
 # ==============================================================================
 node_modules/
 .pnp
 .pnp.js
+.pnpm-store/
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
 
 # ==============================================================================
 # Production Build & Bundler Outputs
 # ==============================================================================
+.next/
+out/
+build/
 dist/
 dist-ssr/
 *.local
+
+# Next.js, Turbopack & Vercel
+.turbo/
+.vercel/
+
+# TypeScript Build Caches & Auto-Generated Environment
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+next-env.d.ts
 
 # Vite cache & temp files
 .vite/
@@ -18,7 +35,7 @@ dist-ssr/
 .cache/
 
 # ==============================================================================
-# Environment Variables & Secrets
+# Environment Variables, Secrets & API Keys
 # ==============================================================================
 .env
 .env.local
@@ -28,8 +45,9 @@ dist-ssr/
 .env*.local
 *.env
 *.env.json
+.env.vault
 
-# Keep example files tracked
+# Keep example & template configuration tracked
 !.env.example
 !.env.template
 
@@ -41,14 +59,24 @@ dist-ssr/
 *.pfx
 *.p12
 *.secret
+*.keystore
+secring.gpg
+id_rsa*
+id_ed25519*
 credentials.json
 service-account*.json
+serviceAccountKey*.json
 token.json
 oauth*.json
 
 # ==============================================================================
-# Supabase Local Development
+# Databases, Local Backends & Dumps
 # ==============================================================================
+*.sqlite
+*.sqlite3
+*.db
+*.sql.gz
+dump.rdb
 .supabase/
 supabase/.temp/
 supabase/.branches/
@@ -87,6 +115,10 @@ $RECYCLE.BIN/
 .fuse_hidden*
 .directory
 
+# Shell history
+*.bash_history
+*.zsh_history
+
 # ==============================================================================
 # Editors & IDEs
 # ==============================================================================
@@ -118,20 +150,31 @@ $RECYCLE.BIN/
 *.sln.docstates
 
 # ==============================================================================
-# Testing & Coverage
+# Testing, Coverage & Benchmarking
 # ==============================================================================
 coverage/
 *.lcov
 .nyc_output/
+playwright-report/
+test-results/
+.lighthouseci/
 
 # ==============================================================================
-# Temporary Files
+# Temporary Files & Scratchpads
 # ==============================================================================
 *.tmp
 *.temp
 scratch/
+temp/
+tmp/
 
 # ==============================================================================
-# Agent
+# AI Assistants, Agent Rules & Local Configs
 # ==============================================================================
-.agents
+.agents/
+AGENTS.md
+.gemini/
+.cursor/
+.claude/
+CLAUDE.md
+CHAT.md

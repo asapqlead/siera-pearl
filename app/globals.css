@@ -1,0 +1,383 @@
+@import "tailwindcss";
+
+:root {
+  /* ==========================================================================
+     Siera Pearl — Luxury Design Tokens (Single Source of Truth)
+     ========================================================================== */
+
+  /* Color System */
+  --bg: #FAF8F4;                 /* Warm Ivory Canvas */
+  --surface: #FFFFFF;            /* Pure Surface */
+  --surface-muted: #F3EFE8;      /* Soft Secondary Surface */
+
+  --text: #1B1B19;               /* Ink Body & Headlines (WCAG AAA) */
+  --text-secondary: #5E5B55;     /* Warm Charcoal Secondary (WCAG AA > 4.5:1) */
+  --text-tertiary: #8C8880;      /* Muted Metadata / Sub-labels */
+
+  --border: #E6E1D8;             /* 1px Hairline Dividers */
+  --border-subtle: #F0ECE4;      /* Faint Card / Table Separator */
+
+  --brand: #12382C;              /* Deep Sea Green (Primary Buttons, Footer) */
+  --brand-hover: #1A4D3D;        /* Deep Sea Green Hover */
+  --brand-muted: #E7EEE7;        /* Subtle Brand Tint */
+
+  --accent: #8C6A2F;             /* Muted Antique Gold (WCAG AA Compliant) */
+  --accent-muted: #F4EFE6;       /* Soft Gold Tint */
+  --accent-focus: #8C6A2F;       /* Focus Ring Variant */
+
+  /* Semantics */
+  --success: #2F6B4F;
+  --success-bg: #EDF5F1;
+  --warning: #B7791F;
+  --warning-bg: #FAF3E7;
+  --error: #B3382C;
+  --error-bg: #FAECEB;
+
+  /* Typography */
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Newsreader, Georgia, serif;
+  --font-sans: var(--font-inter), Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Emil Kowalski Motion Easing Primitives */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
+  --duration-drawer: 300ms;
+
+  /* Radii Rules: 2-4px or square; pill ONLY for status chips */
+  --radius-square: 0px;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-pill: 9999px;
+
+  /* Layout Constants */
+  --max-content-width: 1440px;
+  --gutter-desktop: 48px;
+  --gutter-mobile: 20px;
+  --header-height: 72px;
+  --announcement-height: 36px;
+  --section-py-desktop: 112px;
+  --section-py-mobile: 64px;
+
+  /* Backward Compatibility Aliases for components pending rebuild in Tasks 3-10 */
+  --pearl-white: var(--bg);
+  --pearl-white-2: var(--surface-muted);
+  --ink: var(--text);
+  --ink-soft: var(--text-secondary);
+  --sea-green: var(--brand);
+  --sea-green-deep: #0B251D;
+  --sea-green-tint: var(--brand-muted);
+  --sage: #B9C7BC;
+  --gold: var(--accent);
+  --gold-light: #C9A86E;
+  --gold-deep: #8C6A2F;
+  --line: var(--border);
+  --danger: var(--error);
+
+  --font-fraunces: var(--font-display);
+  --font-manrope: var(--font-sans);
+}
+
+@theme {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-text: var(--text);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+
+  --color-border: var(--border);
+  --color-border-subtle: var(--border-subtle);
+
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-muted: var(--brand-muted);
+
+  --color-accent: var(--accent);
+  --color-accent-muted: var(--accent-muted);
+  --color-accent-focus: var(--accent-focus);
+
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-error: var(--error);
+  --color-error-bg: var(--error-bg);
+
+  --font-serif: var(--font-display);
+  --font-sans: var(--font-sans);
+
+  /* Legacy theme aliases */
+  --color-pearl-white: var(--bg);
+  --color-pearl-white-2: var(--surface-muted);
+  --color-ink: var(--text);
+  --color-ink-soft: var(--text-secondary);
+  --color-sea-green: var(--brand);
+  --color-gold: var(--accent);
+  --color-line: var(--border);
+}
+
+/* ==========================================================================
+   Base Styles & Reset
+   ========================================================================== */
+
+html {
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  background-color: var(--bg);
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Display Headings: Cormorant Garamond, normal weight, tight leading, negative tracking */
+h1, h2, .font-serif, .serif {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+}
+
+h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+
+/* Price Rule: tabular numbers, regular weight, not bold serif */
+.tabular-nums, .price-display {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  font-weight: 400;
+}
+
+/* Accessible Global Focus Visible Ring (WCAG AA: 2px offset) */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Restrained Luxury Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #D8D2C6;
+  border-radius: var(--radius-pill);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ==========================================================================
+   Emil Kowalski Design Engineering Utilities
+   ========================================================================== */
+
+/* Buttons & pressables: tactile feedback on active */
+.btn-press,
+button:active:not(:disabled),
+a:active:not(:disabled) {
+  transition: transform var(--duration-fast) var(--ease-out), background-color var(--duration-fast) ease;
+}
+
+.btn-press:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+/* Origin-aware dialog/popover entrances (never start from scale(0)) */
+@keyframes originAwareIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-popover-in {
+  animation: originAwareIn var(--duration-fast) var(--ease-out) forwards;
+}
+
+/* Drawer entrance with iOS curve */
+@keyframes drawerSlideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-drawer-in {
+  animation: drawerSlideInRight var(--duration-drawer) var(--ease-drawer) forwards;
+}
+
+/* Toast notification entrance */
+@keyframes toastEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-toast-in {
+  animation: toastEntrance var(--duration-base) var(--ease-out) forwards;
+}
+
+/* Badge pop / micro-bounce entrance when item count updates */
+@keyframes badgePop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-badge-pop {
+  animation: badgePop var(--duration-base) var(--ease-out) forwards;
+}
+
+/* ==========================================================================
+   Typography Scale Utilities
+   ========================================================================== */
+
+/* H1: 64px desktop / 40px mobile */
+.text-display-h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+}
+
+/* H2: 40px desktop / 28px mobile */
+.text-display-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  font-weight: 400;
+}
+
+/* H3: 24px desktop / 20px mobile */
+.text-display-h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  font-weight: 500;
+}
+
+/* Body: 16px */
+.text-body {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+
+/* Small: 14px */
+.text-body-sm {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+/* Label: 12px uppercase tracking 0.08em */
+.text-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+/* Max body line length: 65ch */
+.max-prose-ch {
+  max-width: 65ch;
+}
+
+/* Page container with standard responsive gutters */
+.site-container {
+  width: 100%;
+  max-width: var(--max-content-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--gutter-mobile);
+  padding-right: var(--gutter-mobile);
+}
+
+@media (min-width: 1024px) {
+  .site-container {
+    padding-left: var(--gutter-desktop);
+    padding-right: var(--gutter-desktop);
+  }
+}
+
+/* Section vertical spacing rhythm */
+.section-py {
+  padding-top: var(--section-py-mobile);
+  padding-bottom: var(--section-py-mobile);
+}
+
+@media (min-width: 1024px) {
+  .section-py {
+    padding-top: var(--section-py-desktop);
+    padding-bottom: var(--section-py-desktop);
+  }
+}
+
+/* ==========================================================================
+   Accessibility: Reduced Motion
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .btn-press,
+  .animate-popover-in,
+  .animate-drawer-in,
+  .animate-toast-in,
+  .animate-badge-pop {
+    animation: none !important;
+    transform: none !important;
+  }
+}
